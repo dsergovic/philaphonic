@@ -1,7 +1,8 @@
 import { useListNews, getListNewsQueryKey } from '@workspace/api-client-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Newspaper, ArrowUpRight } from 'lucide-react';
+import { Newspaper } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import { CopyButton } from './copy-button';
 
 export function NewsPanel() {
   const { data: news = [] } = useListNews({
@@ -29,7 +30,7 @@ export function NewsPanel() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ delay: i * 0.1 }}
-              className="group relative block"
+              className={`group relative block ${item.url ? 'cursor-pointer' : ''}`}
             >
               {item.url && (
                 <a
@@ -40,7 +41,11 @@ export function NewsPanel() {
                   aria-label={item.headline}
                 />
               )}
-              <div className="flex items-center justify-between mb-2">
+              <CopyButton
+                text={`${item.headline}\n\n${item.summary}`}
+                className="absolute right-0 top-0"
+              />
+              <div className="flex items-center justify-between mb-2 pr-8">
                 <span className="text-xs font-bold uppercase text-primary/80 tracking-wider">
                   {item.source}
                 </span>
@@ -48,11 +53,8 @@ export function NewsPanel() {
                   {formatDistanceToNow(new Date(item.publishedAt), { addSuffix: true })}
                 </span>
               </div>
-              <h4 className="font-display font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors pr-6">
+              <h4 className="font-display font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors">
                 {item.headline}
-                {item.url && (
-                  <ArrowUpRight className="w-4 h-4 absolute right-0 top-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
-                )}
               </h4>
               <p className="text-sm text-muted-foreground line-clamp-2">
                 {item.summary}

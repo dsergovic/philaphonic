@@ -1,9 +1,9 @@
 import { useListSocial, getListSocialQueryKey } from '@workspace/api-client-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FeedImage } from './feed-image';
+import { CopyButton } from './copy-button';
 import { Instagram, Twitter, MessageCircle, Heart, MessageSquare } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
-import { useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 
 export function SocialPanel() {
@@ -34,7 +34,7 @@ export function SocialPanel() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ delay: (i % 5) * 0.1, duration: 0.4 }}
-                className="group relative break-inside-avoid bg-card border border-white/5 rounded-xl overflow-hidden hover:border-accent/40 transition-colors shadow-sm"
+                className="group relative break-inside-avoid bg-card border border-white/5 rounded-xl overflow-hidden hover:border-accent/40 transition-colors shadow-sm cursor-pointer"
               >
                 <a
                   href={tagSearchUrl(post.platform, post.tag)}
@@ -46,16 +46,20 @@ export function SocialPanel() {
                 {post.imageUrl && (
                   <div className="w-full relative bg-muted aspect-square">
                     <FeedImage src={post.imageUrl} alt={post.content} />
-                    <div className="absolute top-2 right-2 p-1.5 rounded-full bg-black/50 backdrop-blur text-white">
-                      <PlatformIcon platform={post.platform} />
+                    <div className="absolute top-2 right-2 flex items-center gap-1.5">
+                      <CopyButton text={post.content} />
+                      <div className="p-1.5 rounded-full bg-black/50 backdrop-blur text-white">
+                        <PlatformIcon platform={post.platform} />
+                      </div>
                     </div>
                   </div>
                 )}
-                
+
                 <div className="p-4">
                   {!post.imageUrl && (
                     <div className="flex items-center justify-between mb-3">
                       <PlatformIcon platform={post.platform} />
+                      <CopyButton text={post.content} />
                     </div>
                   )}
                   

@@ -14,5 +14,4 @@ export * from './newsItem';
 export * from './photo';
 export * from './socialPost';
 export * from './socialPostPlatform';
-export * from './tickerItem';
-export * from './tickerItemKind';
+export * from './weatherInfo';

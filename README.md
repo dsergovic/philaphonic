@@ -1,6 +1,6 @@
 # Philaphonic
 
-A single-page, always-on "live experience of all things Philly" — dark mode only, with self-updating panels for music, news, social chatter, regional photos, upcoming events, and a live ticker. No search, no settings, no users; the home page is the entire product.
+A single-page, always-on "live experience of all things Philly" — dark mode only, with self-updating panels for music, news, social chatter, regional photos, and upcoming events. No search, no settings, no users; the home page is the entire product.
 
 Live at [philaphonic.com](https://philaphonic.com).
 
@@ -40,7 +40,7 @@ pnpm --filter @workspace/api-spec run codegen       # regenerate hooks/schemas f
 
 ## Architecture
 
-- **API contract first** — `lib/api-spec/openapi.yaml` is the source of truth for GET `/api/{music,news,social,photos,events,ticker}`; Orval generates the Zod schemas and React Query hooks.
+- **API contract first** — `lib/api-spec/openapi.yaml` is the source of truth for GET `/api/{music,news,social,photos,events,weather}`; Orval generates the Zod schemas and React Query hooks.
 - **No database** — feeds are curated in-server datasets rotated deterministically per time slot (`rotateWindow` in `artifacts/api-server/src/lib/phillyData.ts`), so all clients see the same "live" feed.
 - **News is the only live feed** — RSS aggregation across WHYY, Billy Penn, PhillyVoice, and Philly Mag with a 5-minute in-memory cache and curated fallback (`artifacts/api-server/src/lib/newsFetcher.ts`).
 - **Frontend** — one bento-grid page (`artifacts/philaphonic/src/pages/home.tsx`); panels poll with staggered intervals (20–60s) and animate item turnover with framer-motion.

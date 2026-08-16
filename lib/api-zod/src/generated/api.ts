@@ -104,14 +104,13 @@ export const ListEventsResponse = zod.array(ListEventsResponseItem)
 
 
 /**
- * Short rotating one-liners — now-playing notes, city pulse blurbs, and Philly flavor
- * @summary Live ticker lines
+ * Current conditions for Philadelphia, PA. Returns null if the upstream weather service is unavailable.
+ * @summary Current Philadelphia weather
  */
-export const ListTickerResponseItem = zod.object({
-  "id": zod.string(),
-  "text": zod.string(),
-  "kind": zod.enum(['nowPlaying', 'pulse', 'fact'])
-})
-export const ListTickerResponse = zod.array(ListTickerResponseItem)
+export const GetWeatherResponse = zod.union([zod.object({
+  "tempF": zod.number().describe('Current temperature in Fahrenheit'),
+  "condition": zod.string().describe('Short human-readable condition, e.g. \"Partly cloudy\"'),
+  "updatedAt": zod.string().describe('ISO timestamp of the last successful upstream fetch')
+}),zod.null()])
 
 

@@ -30,7 +30,7 @@ export function MusicPanel() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ delay: i * 0.1 }}
-              className="group relative flex gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10"
+              className="group relative flex gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10 cursor-pointer"
             >
               <a
                 href={`https://open.spotify.com/search/${encodeURIComponent(`${item.artist} ${item.title}`)}`}
@@ -47,7 +47,7 @@ export function MusicPanel() {
                     <Disc3 className="w-8 h-8 text-muted-foreground/50" />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                   <PlayCircle className="w-8 h-8 text-primary" />
                 </div>
               </div>

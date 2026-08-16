@@ -1,6 +1,6 @@
 # Philaphonic
 
-A single-page, always-on "live experience of all things Philly" — dark mode only, with auto-rotating panels for music, news, social chatter, regional photos, upcoming events, and a live ticker. No search, no settings, no users; home page only.
+A single-page, always-on "live experience of all things Philly" — dark mode only, with auto-rotating panels for music, news, social chatter, regional photos, and upcoming events. No search, no settings, no users; home page only.
 
 ## Run & Operate
 
@@ -20,7 +20,7 @@ A single-page, always-on "live experience of all things Philly" — dark mode on
 
 ## Where things live
 
-- `lib/api-spec/openapi.yaml` — API contract (source of truth): GET `/api/{music,news,social,photos,events,ticker}`
+- `lib/api-spec/openapi.yaml` — API contract (source of truth): GET `/api/{music,news,social,photos,events,weather}`
 - `artifacts/api-server/src/lib/phillyData.ts` — curated datasets + `rotateWindow` time-slot rotation
 - `artifacts/api-server/src/lib/newsFetcher.ts` — live RSS aggregation (Billy Penn, PhillyVoice, WHYY, Philly Mag) with 5-min cache and curated fallback
 - `artifacts/api-server/src/routes/feeds.ts` — the six feed routes, responses validated with `@workspace/api-zod`
@@ -36,7 +36,7 @@ A single-page, always-on "live experience of all things Philly" — dark mode on
 
 ## Product
 
-One dark-mode page: photo hero (rotating regional photography), events list, Tint-style social wall, latest-music panel (with Philly classics mixed in), cross-publication news feed, and an infinite bottom ticker. Everything updates on its own; there is nothing to click through.
+One dark-mode page: photo hero (rotating regional photography), events list, Tint-style social wall, latest-music panel (with Philly classics mixed in), cross-publication news feed, and a footer with the date, time, and current Philadelphia weather. Everything updates on its own; every item is a real link out.
 
 ## User preferences
 
@@ -47,4 +47,4 @@ One dark-mode page: photo hero (rotating regional photography), events list, Tin
 
 - Orval emits zod-v4 `z.int()` for OpenAPI `type: integer`, which breaks against the workspace zod version — use `type: number` in `openapi.yaml` instead.
 - Generated hooks require an explicit `queryKey` when passing custom query options (e.g. `refetchInterval`); use the exported `getList*QueryKey()` helpers.
-- Social/ticker seed data already includes `@`/`#` prefixes — don't re-prefix in the UI.
+- Social seed data already includes `@`/`#` prefixes — don't re-prefix in the UI.

@@ -1,4 +1,4 @@
-import { TickerPanel } from '@/components/ticker-panel';
+import { SiteFooter } from '@/components/site-footer';
 import { PhotosPanel } from '@/components/photos-panel';
 import { MusicPanel } from '@/components/music-panel';
 import { NewsPanel } from '@/components/news-panel';
@@ -26,17 +26,14 @@ export default function Home() {
           <div className="w-8 h-8 rounded bg-primary flex items-center justify-center font-display font-black text-background text-xl">
             P
           </div>
-          <div>
-            <h1 className="font-display font-bold text-xl tracking-wide leading-none">Philaphonic</h1>
-            <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mt-0.5">Philadelphia, live</p>
-          </div>
+          <h1 className="font-display font-bold text-xl tracking-wide leading-none">Philaphonic</h1>
         </motion.div>
 
       </header>
 
       {/* Main Grid Content */}
       <main className="flex-1 relative z-10 w-full max-w-[1600px] mx-auto p-4 md:p-6 mb-16 lg:mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[300px] lg:grid-rows-[minmax(250px,1fr)_minmax(250px,1fr)_minmax(250px,1fr)] gap-4 md:gap-6 h-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[300px] lg:grid-rows-[280px_280px_280px] gap-4 md:gap-6 h-full">
           
           {/* Photos: 2x2 on desktop */}
           <motion.div 
@@ -81,9 +78,9 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Fixed Footer Ticker */}
+      {/* Fixed Footer */}
       <div className="fixed bottom-0 left-0 w-full z-50">
-        <TickerPanel />
+        <SiteFooter />
       </div>
       
     </div>

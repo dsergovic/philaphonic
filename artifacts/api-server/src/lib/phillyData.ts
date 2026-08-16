@@ -62,12 +62,6 @@ export interface EventItem {
   description: string;
 }
 
-export interface TickerItem {
-  id: string;
-  text: string;
-  kind: "nowPlaying" | "pulse" | "fact";
-}
-
 /**
  * Returns a rotating window of `count` items over `items`, advancing one
  * position every `slotMs` milliseconds. Deterministic for a given time slot.
@@ -195,28 +189,3 @@ export function eventItems(): EventItem[] {
     { id: "e10", name: "Bike the Boulevard", venue: "Roosevelt Boulevard", neighborhood: "Northeast Philly", date: daysAhead(13), timeLabel: "9:00 AM", category: "Outdoors", priceLabel: "Free", description: "Twelve car-free miles of the Boulevard, open to bikes, skates, and strollers for one morning." },
   ];
 }
-
-// ---------------------------------------------------------------------------
-// TICKER — short rotating one-liners
-// ---------------------------------------------------------------------------
-
-export const tickerItems: TickerItem[] = [
-  { id: "t1", text: "NOW SPINNING: Tierra Whack — World Wide Whack", kind: "nowPlaying" },
-  { id: "t2", text: "The Singing Fountain in East Passyunk is, in fact, singing right now", kind: "pulse" },
-  { id: "t3", text: "Philadelphia has more public art than any other American city", kind: "fact" },
-  { id: "t4", text: "NOW SPINNING: MFSB — TSOP (The Sound of Philadelphia)", kind: "nowPlaying" },
-  { id: "t5", text: "El running on time. Yes, really. Screenshot this.", kind: "pulse" },
-  { id: "t6", text: "The Mural Arts Program has painted over 4,000 walls since 1984", kind: "fact" },
-  { id: "t7", text: "NOW SPINNING: Alex G — Headlights", kind: "nowPlaying" },
-  { id: "t8", text: "Stoop season status: ACTIVE across all neighborhoods", kind: "pulse" },
-  { id: "t9", text: "John Coltrane's rowhouse still stands on N. 33rd Street in Strawberry Mansion", kind: "fact" },
-  { id: "t10", text: "NOW SPINNING: Orion Sun — Orange Skies", kind: "nowPlaying" },
-  { id: "t11", text: "Rittenhouse Square pianist has drawn a crowd of forty and counting", kind: "pulse" },
-  { id: "t12", text: "The Reading Terminal Market has operated continuously since 1893", kind: "fact" },
-  { id: "t13", text: "NOW SPINNING: Snacktime — Sound Bites", kind: "nowPlaying" },
-  { id: "t14", text: "Wawa coffee line moving briskly. Civic morale: high.", kind: "pulse" },
-  { id: "t15", text: "Elfreth's Alley is the oldest continuously inhabited street in America", kind: "fact" },
-  { id: "t16", text: "NOW SPINNING: The Roots — Things Fall Apart", kind: "nowPlaying" },
-  { id: "t17", text: "Someone is absolutely shredding the Paine's Park quarter pipe right now", kind: "pulse" },
-  { id: "t18", text: "Philly invented the cheesesteak in 1930 at a hot dog stand on 9th Street", kind: "fact" },
-];

@@ -101,21 +101,21 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/EventItem"
-  /ticker:
+  /weather:
     get:
-      operationId: listTicker
+      operationId: getWeather
       tags: [feeds]
-      summary: Live ticker lines
-      description: Short rotating one-liners — now-playing notes, city pulse blurbs, and Philly flavor
+      summary: Current Philadelphia weather
+      description: Current conditions for Philadelphia, PA. Returns null if the upstream weather service is unavailable.
       responses:
         "200":
-          description: Ticker items
+          description: Current weather, or null if unavailable
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/TickerItem"
+                oneOf:
+                  - $ref: "#/components/schemas/WeatherInfo"
+                  - type: "null"
 components:
   schemas:
     HealthStatus:
@@ -243,14 +243,16 @@ components:
           description: Human-friendly price, e.g. "Free" or "$25+"
         description:
           type: string
-    TickerItem:
+    WeatherInfo:
       type: object
-      required: [id, text, kind]
+      required: [tempF, condition, updatedAt]
       properties:
-        id:
+        tempF:
+          type: number
+          description: Current temperature in Fahrenheit
+        condition:
           type: string
-        text:
+          description: Short human-readable condition, e.g. "Partly cloudy"
+        updatedAt:
           type: string
-        kind:
-          type: string
-          enum: [nowPlaying, pulse, fact]
+          description: ISO timestamp of the last successful upstream fetch

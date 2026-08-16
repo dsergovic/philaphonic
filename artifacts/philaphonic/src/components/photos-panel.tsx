@@ -2,6 +2,7 @@ import { useListPhotos, getListPhotosQueryKey } from '@workspace/api-client-reac
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Camera } from 'lucide-react';
 import { FeedImage } from './feed-image';
+import { mapsUrl } from '@/lib/maps';
 
 export function PhotosPanel() {
   const { data: photos = [] } = useListPhotos({
@@ -42,10 +43,16 @@ export function PhotosPanel() {
                   {currentPhoto.title}
                 </h2>
                 <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/80 font-medium">
-                  <div className="flex items-center gap-1.5">
+                  <a
+                    href={mapsUrl(`${currentPhoto.location}, Philadelphia, PA`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 hover:text-primary transition-colors"
+                    aria-label={`${currentPhoto.location} — view on map`}
+                  >
                     <MapPin className="w-4 h-4 text-secondary" />
                     {currentPhoto.location}
-                  </div>
+                  </a>
                   <div className="flex items-center gap-1.5">
                     <Camera className="w-4 h-4 text-primary" />
                     {currentPhoto.credit}

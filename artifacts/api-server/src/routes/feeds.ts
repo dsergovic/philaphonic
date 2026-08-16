@@ -5,7 +5,7 @@ import {
   ListSocialResponse,
   ListPhotosResponse,
   ListEventsResponse,
-  ListTickerResponse,
+  GetWeatherResponse,
 } from "@workspace/api-zod";
 import {
   musicItems,
@@ -13,10 +13,10 @@ import {
   socialPosts,
   photos,
   eventItems,
-  tickerItems,
   rotateWindow,
 } from "../lib/phillyData";
 import { getLiveNews } from "../lib/newsFetcher";
+import { getWeather } from "../lib/weatherFetcher";
 
 const router: IRouter = Router();
 
@@ -50,9 +50,9 @@ router.get("/events", async (_req, res): Promise<void> => {
   res.json(ListEventsResponse.parse(items));
 });
 
-router.get("/ticker", async (_req, res): Promise<void> => {
-  const items = rotateWindow(tickerItems, 10, 20_000);
-  res.json(ListTickerResponse.parse(items));
+router.get("/weather", async (_req, res): Promise<void> => {
+  const weather = await getWeather();
+  res.json(GetWeatherResponse.parse(weather));
 });
 
 export default router;

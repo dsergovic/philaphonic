@@ -112,18 +112,12 @@ export interface EventItem {
   description: string;
 }
 
-export type TickerItemKind = typeof TickerItemKind[keyof typeof TickerItemKind];
-
-
-export const TickerItemKind = {
-  nowPlaying: 'nowPlaying',
-  pulse: 'pulse',
-  fact: 'fact',
-} as const;
-
-export interface TickerItem {
-  id: string;
-  text: string;
-  kind: TickerItemKind;
+export interface WeatherInfo {
+  /** Current temperature in Fahrenheit */
+  tempF: number;
+  /** Short human-readable condition, e.g. "Partly cloudy" */
+  condition: string;
+  /** ISO timestamp of the last successful upstream fetch */
+  updatedAt: string;
 }
 

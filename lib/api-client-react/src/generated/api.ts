@@ -22,7 +22,7 @@ import type {
   NewsItem,
   Photo,
   SocialPost,
-  TickerItem
+  WeatherInfo
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -520,21 +520,21 @@ export function useListEvents<TData = Awaited<ReturnType<typeof listEvents>>, TE
 
 
 
-export const getListTickerUrl = () => {
+export const getGetWeatherUrl = () => {
 
 
 
 
-  return `/api/ticker`
+  return `/api/weather`
 }
 
 /**
- * Short rotating one-liners — now-playing notes, city pulse blurbs, and Philly flavor
- * @summary Live ticker lines
+ * Current conditions for Philadelphia, PA. Returns null if the upstream weather service is unavailable.
+ * @summary Current Philadelphia weather
  */
-export const listTicker = async ( options?: Parameters<typeof customFetch>[1]): Promise<TickerItem[]> => {
+export const getWeather = async ( options?: Parameters<typeof customFetch>[1]): Promise<WeatherInfo | null> => {
 
-  return customFetch<TickerItem[]>(getListTickerUrl(),
+  return customFetch<WeatherInfo | null>(getGetWeatherUrl(),
   {
     ...options,
     method: 'GET'
@@ -547,45 +547,45 @@ export const listTicker = async ( options?: Parameters<typeof customFetch>[1]): 
 
 
 
-export const getListTickerQueryKey = () => {
+export const getGetWeatherQueryKey = () => {
     return [
-    `/api/ticker`
+    `/api/weather`
     ] as const;
     }
 
 
-export const getListTickerQueryOptions = <TData = Awaited<ReturnType<typeof listTicker>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listTicker>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+export const getGetWeatherQueryOptions = <TData = Awaited<ReturnType<typeof getWeather>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getWeather>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getListTickerQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetWeatherQueryKey();
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof listTicker>>> = ({ signal }) => listTicker({ signal, ...requestOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getWeather>>> = ({ signal }) => getWeather({ signal, ...requestOptions });
 
 
 
 
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listTicker>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getWeather>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type ListTickerQueryResult = NonNullable<Awaited<ReturnType<typeof listTicker>>>
-export type ListTickerQueryError = ErrorType<unknown>
+export type GetWeatherQueryResult = NonNullable<Awaited<ReturnType<typeof getWeather>>>
+export type GetWeatherQueryError = ErrorType<unknown>
 
 
 /**
- * @summary Live ticker lines
+ * @summary Current Philadelphia weather
  */
 
-export function useListTicker<TData = Awaited<ReturnType<typeof listTicker>>, TError = ErrorType<unknown>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listTicker>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+export function useGetWeather<TData = Awaited<ReturnType<typeof getWeather>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getWeather>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
 
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = getListTickerQueryOptions(options)
+  const queryOptions = getGetWeatherQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

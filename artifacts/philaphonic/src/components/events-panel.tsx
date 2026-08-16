@@ -2,6 +2,7 @@ import { useListEvents, getListEventsQueryKey } from '@workspace/api-client-reac
 import { motion, AnimatePresence } from 'framer-motion';
 import { CalendarDays, MapPin, Clock, Ticket } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
+import { mapsUrl } from '@/lib/maps';
 
 export function EventsPanel() {
   const { data: events = [] } = useListEvents({
@@ -37,10 +38,10 @@ export function EventsPanel() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: i * 0.1 }}
-                className="group relative bg-black/20 hover:bg-white/5 border border-white/5 hover:border-primary/30 p-4 rounded-xl transition-all"
+                className="group relative bg-black/20 hover:bg-white/5 border border-white/5 hover:border-primary/30 p-4 rounded-xl transition-all cursor-pointer"
               >
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${event.venue}, Philadelphia, PA`)}`}
+                  href={mapsUrl(`${event.venue}, Philadelphia, PA`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="absolute inset-0 z-10 rounded-xl"
