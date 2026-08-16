@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: feeds
+    description: Philaphonic live content feeds
 paths:
   /healthz:
     get:
@@ -24,6 +26,96 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /music:
+    get:
+      operationId: listMusic
+      tags: [feeds]
+      summary: Latest Philly music feed
+      description: Rotating feed of current Philly artists and releases with occasional classics mixed in
+      responses:
+        "200":
+          description: Music feed items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MusicItem"
+  /news:
+    get:
+      operationId: listNews
+      tags: [feeds]
+      summary: Cross-publication news feed
+      description: Blended headlines from multiple Philadelphia publications, each attributed to its source
+      responses:
+        "200":
+          description: News feed items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewsItem"
+  /social:
+    get:
+      operationId: listSocial
+      tags: [feeds]
+      summary: Social media wall
+      description: Rotating mosaic of recent Philly-tagged social posts across platforms
+      responses:
+        "200":
+          description: Social wall posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SocialPost"
+  /photos:
+    get:
+      operationId: listPhotos
+      tags: [feeds]
+      summary: Regional photos feed
+      description: Rotating regional imagery of Philadelphia — skyline, neighborhoods, murals, food, sports
+      responses:
+        "200":
+          description: Photo feed items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Photo"
+  /events:
+    get:
+      operationId: listEvents
+      tags: [feeds]
+      summary: Upcoming regional events
+      description: Upcoming happenings around the Philadelphia region with dates and venues
+      responses:
+        "200":
+          description: Event feed items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EventItem"
+  /ticker:
+    get:
+      operationId: listTicker
+      tags: [feeds]
+      summary: Live ticker lines
+      description: Short rotating one-liners — now-playing notes, city pulse blurbs, and Philly flavor
+      responses:
+        "200":
+          description: Ticker items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TickerItem"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +125,132 @@ components:
           type: string
       required:
         - status
-
+    MusicItem:
+      type: object
+      required: [id, kind, artist, title, genre, blurb, year]
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+          enum: [latest, classic]
+          description: Whether this is a current release or a Philly classic
+        artist:
+          type: string
+        title:
+          type: string
+        genre:
+          type: string
+        blurb:
+          type: string
+        year:
+          type: number
+        neighborhood:
+          type: ["string", "null"]
+          description: Philly neighborhood associated with the artist, if any
+        coverUrl:
+          type: ["string", "null"]
+          description: Album/cover art URL, site-root-relative
+    NewsItem:
+      type: object
+      required: [id, headline, source, category, summary, publishedAt]
+      properties:
+        id:
+          type: string
+        headline:
+          type: string
+        source:
+          type: string
+          description: Publication name the headline is attributed to
+        category:
+          type: string
+        summary:
+          type: string
+        publishedAt:
+          type: string
+          description: ISO timestamp of publication
+        url:
+          type: ["string", "null"]
+          description: Link to the original story, if available
+    SocialPost:
+      type: object
+      required: [id, platform, handle, displayName, content, likes, comments, postedAt, tag]
+      properties:
+        id:
+          type: string
+        platform:
+          type: string
+          enum: [instagram, x, tiktok, threads]
+        handle:
+          type: string
+        displayName:
+          type: string
+        content:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+          description: Attached image URL, site-root-relative
+        likes:
+          type: number
+        comments:
+          type: number
+        postedAt:
+          type: string
+          description: ISO timestamp of the post
+        tag:
+          type: string
+          description: Primary hashtag on the post
+    Photo:
+      type: object
+      required: [id, title, location, credit, imageUrl, tag]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        location:
+          type: string
+        credit:
+          type: string
+        imageUrl:
+          type: string
+          description: Image URL, site-root-relative
+        tag:
+          type: string
+          description: Category tag such as skyline, murals, food, sports
+    EventItem:
+      type: object
+      required: [id, name, venue, neighborhood, date, timeLabel, category, priceLabel, description]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        venue:
+          type: string
+        neighborhood:
+          type: string
+        date:
+          type: string
+          description: ISO date of the event
+        timeLabel:
+          type: string
+          description: Human-friendly time, e.g. "8:00 PM"
+        category:
+          type: string
+        priceLabel:
+          type: string
+          description: Human-friendly price, e.g. "Free" or "$25+"
+        description:
+          type: string
+    TickerItem:
+      type: object
+      required: [id, text, kind]
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        kind:
+          type: string
+          enum: [nowPlaying, pulse, fact]

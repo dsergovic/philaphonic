@@ -1,0 +1,104 @@
+import { TickerPanel } from '@/components/ticker-panel';
+import { PhotosPanel } from '@/components/photos-panel';
+import { MusicPanel } from '@/components/music-panel';
+import { NewsPanel } from '@/components/news-panel';
+import { SocialPanel } from '@/components/social-panel';
+import { EventsPanel } from '@/components/events-panel';
+import { motion } from 'framer-motion';
+
+export default function Home() {
+  return (
+    <div className="min-h-[100dvh] bg-background text-foreground flex flex-col relative overflow-hidden font-sans selection:bg-primary selection:text-primary-foreground">
+      
+      {/* Background ambient lighting */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[30%] h-[50%] bg-secondary/10 rounded-full blur-[100px]" />
+      </div>
+
+      {/* Header */}
+      <header className="relative z-10 w-full p-6 flex items-center justify-between pointer-events-none">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-3"
+        >
+          <div className="w-8 h-8 rounded bg-primary flex items-center justify-center font-display font-black text-background text-xl shadow-[0_0_15px_rgba(0,240,255,0.5)]">
+            P
+          </div>
+          <div>
+            <h1 className="font-display font-bold text-xl tracking-wider uppercase leading-none">Philaphonic</h1>
+            <p className="text-[10px] font-mono text-primary uppercase tracking-widest mt-0.5">Live City Pulse</p>
+          </div>
+        </motion.div>
+        
+        <motion.div 
+          initial={{ opacity: 0, right: -20 }}
+          animate={{ opacity: 1, right: 0 }}
+          className="flex items-center gap-2"
+        >
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+          </span>
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-secondary">
+            Broadcasting
+          </span>
+        </motion.div>
+      </header>
+
+      {/* Main Grid Content */}
+      <main className="flex-1 relative z-10 w-full max-w-[1600px] mx-auto p-4 md:p-6 mb-16 lg:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[300px] lg:grid-rows-[minmax(250px,1fr)_minmax(250px,1fr)_minmax(250px,1fr)] gap-4 md:gap-6 h-full">
+          
+          {/* Photos: 2x2 on desktop */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
+            className="row-span-1 md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2 min-h-[300px]"
+          >
+            <PhotosPanel />
+          </motion.div>
+          
+          {/* Events: 1x2 on desktop */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}
+            className="row-span-1 md:col-span-1 md:row-span-2 lg:col-span-1 lg:row-span-2"
+          >
+            <EventsPanel />
+          </motion.div>
+          
+          {/* Social: 1x3 on desktop */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
+            className="row-span-2 md:col-span-1 md:row-span-2 lg:col-span-1 lg:row-span-3"
+          >
+            <SocialPanel />
+          </motion.div>
+          
+          {/* Music: 1x1 on desktop */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }}
+            className="row-span-1 md:col-span-1 md:row-span-1 lg:col-span-1 lg:row-span-1"
+          >
+            <MusicPanel />
+          </motion.div>
+          
+          {/* News: 2x1 on desktop */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}
+            className="row-span-1 md:col-span-2 md:row-span-1 lg:col-span-2 lg:row-span-1"
+          >
+            <NewsPanel />
+          </motion.div>
+
+        </div>
+      </main>
+
+      {/* Fixed Footer Ticker */}
+      <div className="fixed bottom-0 left-0 w-full z-50">
+        <TickerPanel />
+      </div>
+      
+    </div>
+  );
+}

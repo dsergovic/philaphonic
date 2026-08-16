@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Philaphonic"
+description = "Philaphonic.com — a single-page, always-on live experience of all things Philadelphia in modern dynamic dark mode. Self-updating panels showcase the latest Philly music (with occasional classics), a cross-publication news feed, a Tint-style social media wall, regional photos, and upcoming events. No search, no users, no settings — just one living home page."
+version = "1.0.0"
+id = "artifacts/philaphonic"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22317
+
+[services.development]
+run = "pnpm --filter @workspace/philaphonic run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/philaphonic", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/philaphonic/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22317"
+BASE_PATH = "/"

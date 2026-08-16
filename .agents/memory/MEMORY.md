@@ -1,0 +1,1 @@
+- [OpenAPI codegen quirks](openapi-codegen-quirks.md) — avoid `type: integer` in specs (Orval emits zod-v4 `z.int()`); generated hooks need explicit `queryKey` with custom query options.

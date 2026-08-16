@@ -1,45 +1,50 @@
-# [Project name]
+# Philaphonic
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A single-page, always-on "live experience of all things Philly" — dark mode only, with auto-rotating panels for music, news, social chatter, regional photos, upcoming events, and a live ticker. No search, no settings, no users; home page only.
 
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/philaphonic run dev` — run the Philaphonic frontend
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- API: Express 5 (pino logging via `req.log`)
+- Frontend: React + Vite, Tailwind, framer-motion, TanStack Query (polling), wouter
+- Validation: Zod, API codegen via Orval (from OpenAPI spec)
+- No database — feeds are curated in-server datasets
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — API contract (source of truth): GET `/api/{music,news,social,photos,events,ticker}`
+- `artifacts/api-server/src/lib/phillyData.ts` — curated datasets + `rotateWindow` time-slot rotation
+- `artifacts/api-server/src/lib/newsFetcher.ts` — live RSS aggregation (Billy Penn, PhillyVoice, WHYY, Philly Mag) with 5-min cache and curated fallback
+- `artifacts/api-server/src/routes/feeds.ts` — the six feed routes, responses validated with `@workspace/api-zod`
+- `artifacts/philaphonic/src/pages/home.tsx` — bento grid layout; panels in `src/components/*-panel.tsx`
+- `artifacts/philaphonic/public/images/{photos,covers,social}/` — AI-generated imagery referenced by seed data as site-root-relative paths
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- No database: content is curated in-server and rotated deterministically per time slot (`rotateWindow`), so polling clients continuously see fresh items and concurrent clients see the same feed.
+- News is the only live feed — RSS aggregation with in-memory cache; on failure it silently falls back to the curated dataset (fallback logged via `req.log`).
+- Frontend panels poll with staggered `refetchInterval` (20–60s) and animate item turnover with framer-motion `AnimatePresence`.
+- Event dates are generated relative to "today" so the events panel always looks upcoming.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+One dark-mode page: photo hero (rotating regional photography), events list, Tint-style social wall, latest-music panel (with Philly classics mixed in), cross-publication news feed, and an infinite bottom ticker. Everything updates on its own; there is nothing to click through.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- No search, settings, users, or help pages — the home page is the entire product.
+- Dark mode only; panels should auto-scroll or fade as new content arrives.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Orval emits zod-v4 `z.int()` for OpenAPI `type: integer`, which breaks against the workspace zod version — use `type: number` in `openapi.yaml` instead.
+- Generated hooks require an explicit `queryKey` when passing custom query options (e.g. `refetchInterval`); use the exported `getList*QueryKey()` helpers.
+- Social/ticker seed data already includes `@`/`#` prefixes — don't re-prefix in the UI.
