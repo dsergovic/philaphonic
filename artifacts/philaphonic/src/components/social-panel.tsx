@@ -19,7 +19,7 @@ export function SocialPanel() {
       <div className="p-5 flex items-center justify-between sticky top-0 z-10 bg-background/60 backdrop-blur-xl border-b border-border/50">
         <div className="flex items-center gap-2">
           <MessageCircle className="w-5 h-5 text-accent" />
-          <h3 className="font-display font-bold uppercase tracking-widest text-sm text-accent">City Chatter</h3>
+          <h3 className="font-display font-bold uppercase tracking-widest text-sm text-accent">Chatter</h3>
         </div>
         <div className="text-xs font-mono text-muted-foreground bg-black/50 px-2 py-1 rounded">
           LIVE FEED

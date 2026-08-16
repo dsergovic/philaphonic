@@ -18,7 +18,7 @@ export function EventsPanel() {
       <div className="p-5 border-b border-white/5 flex items-center justify-between sticky top-0 z-10 bg-card/60 backdrop-blur-xl">
         <div className="flex items-center gap-2">
           <CalendarDays className="w-5 h-5 text-primary" />
-          <h3 className="font-display font-bold uppercase tracking-widest text-sm text-primary">On The Grid</h3>
+          <h3 className="font-display font-bold uppercase tracking-widest text-sm text-primary">What's Happening</h3>
         </div>
       </div>
       
