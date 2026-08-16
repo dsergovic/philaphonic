@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm --filter @workspace/api-server --filter @workspace/philaphonic run typecheck && PORT=3000 BASE_PATH=/ pnpm --filter @workspace/api-server --filter @workspace/philaphonic run build",
+  "buildCommand": "pnpm run typecheck:libs && pnpm --filter @workspace/api-server --filter @workspace/philaphonic run typecheck && PORT=3000 BASE_PATH=/ pnpm --filter @workspace/api-server --filter @workspace/philaphonic run build",
   "outputDirectory": "artifacts/philaphonic/dist/public",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" },
