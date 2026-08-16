@@ -12,26 +12,26 @@ export default function Home() {
       
       {/* Background ambient lighting */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[30%] h-[50%] bg-secondary/10 rounded-full blur-[100px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[30%] h-[50%] bg-secondary/5 rounded-full blur-[120px]" />
       </div>
 
       {/* Header */}
       <header className="relative z-10 w-full p-6 flex items-center justify-between pointer-events-none">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-3"
         >
-          <div className="w-8 h-8 rounded bg-primary flex items-center justify-center font-display font-black text-background text-xl shadow-[0_0_15px_rgba(0,240,255,0.5)]">
+          <div className="w-8 h-8 rounded bg-primary flex items-center justify-center font-display font-black text-background text-xl">
             P
           </div>
           <div>
-            <h1 className="font-display font-bold text-xl tracking-wider uppercase leading-none">Philaphonic</h1>
-            <p className="text-[10px] font-mono text-primary uppercase tracking-widest mt-0.5">Live City Pulse</p>
+            <h1 className="font-display font-bold text-xl tracking-wide leading-none">Philaphonic</h1>
+            <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mt-0.5">Philadelphia, live</p>
           </div>
         </motion.div>
-        
+
       </header>
 
       {/* Main Grid Content */}

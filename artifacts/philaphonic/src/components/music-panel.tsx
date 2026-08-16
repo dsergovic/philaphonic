@@ -16,12 +16,8 @@ export function MusicPanel() {
     <div className="flex flex-col h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
       <div className="p-5 border-b border-border/50 bg-card/50 backdrop-blur-md flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-2 text-primary">
-          <Disc3 className="w-5 h-5 animate-[spin_4s_linear_infinite]" />
-          <h3 className="font-display font-bold uppercase tracking-widest text-sm">Pulse</h3>
-        </div>
-        <div className="flex gap-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse [animation-delay:200ms]" />
+          <Disc3 className="w-5 h-5" />
+          <h3 className="font-display font-bold uppercase tracking-widest text-sm">Music</h3>
         </div>
       </div>
       
@@ -36,6 +32,13 @@ export function MusicPanel() {
               transition={{ delay: i * 0.1 }}
               className="group relative flex gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10"
             >
+              <a
+                href={`https://open.spotify.com/search/${encodeURIComponent(`${item.artist} ${item.title}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-0 z-10 rounded-xl"
+                aria-label={`Play ${item.title} by ${item.artist} on Spotify`}
+              />
               <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-muted">
                 {item.coverUrl ? (
                   <FeedImage src={item.coverUrl} alt={item.title} />

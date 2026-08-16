@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -98,18 +97,18 @@
 
   --border: 225 19% 12%;
   --input: 225 19% 12%;
-  --ring: 183 100% 50%;
+  --ring: 189 70% 46%;
 
-  --primary: 183 100% 50%;
+  --primary: 189 70% 46%;
   --primary-foreground: 225 17% 4%;
 
-  --secondary: 340 100% 55%;
+  --secondary: 340 50% 55%;
   --secondary-foreground: 210 33% 96%;
 
   --muted: 225 19% 12%;
   --muted-foreground: 210 16% 65%;
 
-  --accent: 183 100% 50%;
+  --accent: 189 70% 46%;
   --accent-foreground: 225 17% 4%;
 
   --destructive: 0 84% 60%;
@@ -118,14 +117,14 @@
   --sidebar: 225 18% 7%;
   --sidebar-foreground: 210 33% 96%;
   --sidebar-border: 225 19% 12%;
-  --sidebar-primary: 183 100% 50%;
+  --sidebar-primary: 189 70% 46%;
   --sidebar-primary-foreground: 225 17% 4%;
   --sidebar-accent: 225 19% 12%;
   --sidebar-accent-foreground: 210 33% 96%;
-  --sidebar-ring: 183 100% 50%;
+  --sidebar-ring: 189 70% 46%;
 
-  --chart-1: 183 100% 50%;
-  --chart-2: 340 100% 55%;
+  --chart-1: 189 70% 46%;
+  --chart-2: 340 50% 55%;
   --chart-3: 45 100% 55%;
   --chart-4: 280 100% 65%;
   --chart-5: 140 100% 55%;
@@ -205,19 +204,19 @@
   --popover-border: 225 19% 12%;
   --border: 225 19% 12%;
   --input: 225 19% 12%;
-  --ring: 183 100% 50%;
-  --primary: 183 100% 50%;
+  --ring: 189 70% 46%;
+  --primary: 189 70% 46%;
   --primary-foreground: 225 17% 4%;
-  --secondary: 340 100% 55%;
+  --secondary: 340 50% 55%;
   --secondary-foreground: 210 33% 96%;
   --muted: 225 19% 12%;
   --muted-foreground: 210 16% 65%;
-  --accent: 183 100% 50%;
+  --accent: 189 70% 46%;
   --accent-foreground: 225 17% 4%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 210 33% 96%;
-  --chart-1: 183 100% 50%;
-  --chart-2: 340 100% 55%;
+  --chart-1: 189 70% 46%;
+  --chart-2: 340 50% 55%;
   --chart-3: 45 100% 55%;
   --chart-4: 280 100% 65%;
   --chart-5: 140 100% 55%;

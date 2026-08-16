@@ -15,7 +15,7 @@ export function TickerPanel() {
   const repeatedTickers = Array.from({ length: 2 }).flatMap(() => tickers);
 
   return (
-    <div className="w-full bg-background/80 backdrop-blur-xl text-primary overflow-hidden py-3 border-t border-primary/20 relative z-50 flex items-center shadow-[0_-10px_30px_rgba(0,240,255,0.1)]">
+    <div className="w-full bg-background/90 backdrop-blur-xl text-primary overflow-hidden py-3 border-t border-white/10 relative z-50 flex items-center">
       <div className="flex w-max animate-ticker hover:[animation-play-state:paused]">
         {repeatedTickers.map((ticker, i) => (
           <div key={`${ticker.id}-${i}`} className="flex items-center gap-3 px-6 whitespace-nowrap">

@@ -39,6 +39,13 @@ export function EventsPanel() {
                 transition={{ delay: i * 0.1 }}
                 className="group relative bg-black/20 hover:bg-white/5 border border-white/5 hover:border-primary/30 p-4 rounded-xl transition-all"
               >
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${event.venue}, Philadelphia, PA`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-10 rounded-xl"
+                  aria-label={`${event.name} at ${event.venue} — view on map`}
+                />
                 <div className="flex gap-4">
                   <div className="flex flex-col items-center justify-center shrink-0 w-14 h-14 bg-background rounded-lg border border-white/10 shadow-inner">
                     <span className="text-[10px] uppercase font-bold text-primary/80">{format(eventDate, 'MMM')}</span>

@@ -16,7 +16,7 @@ export function NewsPanel() {
       <div className="p-5 border-b border-border/50 flex items-center justify-between sticky top-0 z-10 bg-card/80 backdrop-blur">
         <div className="flex items-center gap-2 text-foreground">
           <Newspaper className="w-5 h-5 text-secondary" />
-          <h3 className="font-display font-bold uppercase tracking-widest text-sm text-secondary">The Wire</h3>
+          <h3 className="font-display font-bold uppercase tracking-widest text-sm text-secondary">News</h3>
         </div>
       </div>
       
@@ -31,6 +31,15 @@ export function NewsPanel() {
               transition={{ delay: i * 0.1 }}
               className="group relative block"
             >
+              {item.url && (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-10"
+                  aria-label={item.headline}
+                />
+              )}
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-bold uppercase text-primary/80 tracking-wider">
                   {item.source}
@@ -41,7 +50,9 @@ export function NewsPanel() {
               </div>
               <h4 className="font-display font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors pr-6">
                 {item.headline}
-                <ArrowUpRight className="w-4 h-4 absolute right-0 top-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
+                {item.url && (
+                  <ArrowUpRight className="w-4 h-4 absolute right-0 top-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
+                )}
               </h4>
               <p className="text-sm text-muted-foreground line-clamp-2">
                 {item.summary}

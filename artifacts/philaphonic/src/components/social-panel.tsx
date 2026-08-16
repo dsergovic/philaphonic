@@ -19,10 +19,7 @@ export function SocialPanel() {
       <div className="p-5 flex items-center justify-between sticky top-0 z-10 bg-background/60 backdrop-blur-xl border-b border-border/50">
         <div className="flex items-center gap-2">
           <MessageCircle className="w-5 h-5 text-accent" />
-          <h3 className="font-display font-bold uppercase tracking-widest text-sm text-accent">Chatter</h3>
-        </div>
-        <div className="text-xs font-mono text-muted-foreground bg-black/50 px-2 py-1 rounded">
-          LIVE FEED
+          <h3 className="font-display font-bold uppercase tracking-widest text-sm text-accent">Social</h3>
         </div>
       </div>
       
@@ -37,8 +34,15 @@ export function SocialPanel() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ delay: (i % 5) * 0.1, duration: 0.4 }}
-                className="break-inside-avoid bg-card border border-white/5 rounded-xl overflow-hidden hover:border-accent/40 transition-colors shadow-sm"
+                className="group relative break-inside-avoid bg-card border border-white/5 rounded-xl overflow-hidden hover:border-accent/40 transition-colors shadow-sm"
               >
+                <a
+                  href={tagSearchUrl(post.platform, post.tag)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-10"
+                  aria-label={`View ${post.tag} on ${post.platform}`}
+                />
                 {post.imageUrl && (
                   <div className="w-full relative bg-muted aspect-square">
                     <FeedImage src={post.imageUrl} alt={post.content} />
@@ -90,6 +94,20 @@ export function SocialPanel() {
       </div>
     </div>
   );
+}
+
+function tagSearchUrl(platform: string, tag: string): string {
+  const name = tag.replace(/^[#@]/, '');
+  switch (platform) {
+    case 'instagram':
+      return `https://www.instagram.com/explore/tags/${encodeURIComponent(name)}/`;
+    case 'x':
+      return `https://x.com/hashtag/${encodeURIComponent(name)}`;
+    case 'tiktok':
+      return `https://www.tiktok.com/tag/${encodeURIComponent(name)}`;
+    default:
+      return `https://www.threads.net/search?q=${encodeURIComponent(name)}`;
+  }
 }
 
 function PlatformIcon({ platform }: { platform: string }) {
