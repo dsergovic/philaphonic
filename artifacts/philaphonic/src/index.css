@@ -67,7 +67,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   
-  --animate-ticker: ticker 30s linear infinite;
+  --animate-ticker: ticker 120s linear infinite;
 }
 
 @keyframes ticker {

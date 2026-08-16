@@ -10,7 +10,9 @@ export function TickerPanel() {
     }
   });
 
-  const repeatedTickers = Array.from({ length: 10 }).flatMap(() => tickers);
+  // Two copies of the set: the animation slides -50%, i.e. exactly one set
+  // per loop, giving a seamless infinite scroll.
+  const repeatedTickers = Array.from({ length: 2 }).flatMap(() => tickers);
 
   return (
     <div className="w-full bg-background/80 backdrop-blur-xl text-primary overflow-hidden py-3 border-t border-primary/20 relative z-50 flex items-center shadow-[0_-10px_30px_rgba(0,240,255,0.1)]">
