@@ -5,7 +5,18 @@ import { ImageOff } from 'lucide-react';
  * Image with fade-in on load and a visible placeholder on error.
  * Load/error state resets whenever `src` changes (panels rotate content).
  */
-export function FeedImage({ src, alt, fadeMs = 500 }: { src: string; alt: string; fadeMs?: number }) {
+export function FeedImage({
+  src,
+  alt,
+  fadeMs = 500,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  fadeMs?: number;
+  /** When true, skip lazy loading (use for the currently visible hero photo). */
+  priority?: boolean;
+}) {
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -26,7 +37,12 @@ export function FeedImage({ src, alt, fadeMs = 500 }: { src: string; alt: string
     <img
       src={src}
       alt={alt}
-      className={`w-full h-full object-cover transition-opacity ${loaded ? 'opacity-100' : 'opacity-0'}`}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding="async"
+      fetchPriority={priority ? 'high' : 'auto'}
+      className={`w-full h-full object-cover transition-opacity ${
+        loaded ? 'opacity-100' : 'opacity-0'
+      }`}
       style={{ transitionDuration: `${fadeMs}ms` }}
       onLoad={() => setLoaded(true)}
       onError={() => setFailed(true)}

@@ -122,10 +122,11 @@
   --chart-4: 280 100% 65%;
   --chart-5: 140 100% 55%;
 
-  --app-font-sans: 'Outfit', sans-serif;
-  --app-font-serif: Georgia, serif;
-  --app-font-mono: Menlo, monospace;
-  --app-font-display: 'Syne', sans-serif;
+  /* System fonts — no third-party requests, avoids Safari privacy prompts */
+  --app-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --app-font-serif: Georgia, "Times New Roman", serif;
+  --app-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --app-font-display: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   
   --radius: 0.75rem;
 
