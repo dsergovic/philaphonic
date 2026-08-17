@@ -22,20 +22,29 @@ export function PhotosPanel() {
     }
   });
 
-  const [index, setIndex] = useState(0);
+  const [currentId, setCurrentId] = useState<string | null>(null);
   const [direction, setDirection] = useState(1);
 
-  // Keep the index valid if the underlying set reshuffles/shrinks.
+  // Track position by photo id, not array index: the background refetch
+  // reshuffles the array's order every ~30s (same set, "live" feel), and
+  // pinning by id keeps the currently-viewed photo on screen instead of
+  // silently swapping to whatever now sits at the old index — navigation
+  // should only ever happen from a manual swipe/click.
   useEffect(() => {
-    if (index >= photos.length) setIndex(0);
-  }, [photos.length, index]);
+    if (currentId === null && photos.length > 0) {
+      setCurrentId(photos[0].id);
+    } else if (currentId !== null && !photos.some((p) => p.id === currentId)) {
+      setCurrentId(photos[0]?.id ?? null);
+    }
+  }, [photos, currentId]);
 
+  const index = Math.max(0, photos.findIndex((p) => p.id === currentId));
   const currentPhoto = photos[index];
 
   function go(delta: number) {
     if (photos.length < 2) return;
     setDirection(delta);
-    setIndex((i) => (i + delta + photos.length) % photos.length);
+    setCurrentId(photos[(index + delta + photos.length) % photos.length].id);
   }
 
   return (
@@ -139,7 +148,7 @@ export function PhotosPanel() {
                 type="button"
                 onClick={() => {
                   setDirection(i > index ? 1 : -1);
-                  setIndex(i);
+                  setCurrentId(p.id);
                 }}
                 aria-label={`Go to photo ${i + 1}`}
                 aria-current={i === index}
