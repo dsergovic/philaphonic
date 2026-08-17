@@ -88,7 +88,12 @@ export function PhotosPanel() {
               transition={{ type: 'tween', duration: 0.35, ease: 'easeInOut' }}
               className="absolute inset-0"
             >
-              <FeedImage src={currentPhoto.imageUrl} alt={currentPhoto.title} fadeMs={200} />
+              <FeedImage
+                src={currentPhoto.imageUrl}
+                alt={currentPhoto.title}
+                fadeMs={200}
+                priority
+              />
             </motion.div>
           )}
         </AnimatePresence>
@@ -98,9 +103,9 @@ export function PhotosPanel() {
         <div className="absolute bottom-0 left-0 p-6 z-20 w-full pointer-events-none">
           <motion.div
             key={`caption-${currentPhoto.id}`}
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: 12, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.15 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
             className="pointer-events-auto"
           >
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider mb-3">
