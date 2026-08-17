@@ -13,6 +13,18 @@ function wikimediaSourceUrl(imageUrl: string): string | null {
 
 const SWIPE_THRESHOLD = 50;
 
+// Defined once, outside the component: framer-motion's AnimatePresence
+// tracks whether an animation target has "changed" partly by object
+// identity. Passing a fresh `{x: ...}` object literal inline on every
+// render (as opposed to a stable variants object referenced by name)
+// made the tween restart on unrelated re-renders instead of settling,
+// leaving the photo parked at whatever offset it was mid-interruption.
+const slideVariants = {
+  enter: (dir: number) => ({ x: `${dir * 100}%` }),
+  center: { x: 0 },
+  exit: (dir: number) => ({ x: `${dir * -100}%` }),
+};
+
 export function PhotosPanel() {
   const { data: photos = [] } = useListPhotos({
     query: {
@@ -64,14 +76,15 @@ export function PhotosPanel() {
           else if (delta >= SWIPE_THRESHOLD) go(-1);
         }}
       >
-        <AnimatePresence custom={direction}>
+        <AnimatePresence custom={direction} initial={false}>
           {currentPhoto && (
             <motion.div
               key={currentPhoto.id}
               custom={direction}
-              initial={{ x: `${direction * 100}%` }}
-              animate={{ x: 0 }}
-              exit={{ x: `${direction * -100}%` }}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
               transition={{ type: 'tween', duration: 0.35, ease: 'easeInOut' }}
               className="absolute inset-0"
             >
