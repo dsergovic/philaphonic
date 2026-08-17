@@ -17,7 +17,7 @@ export function EventsPanel() {
     <div className="flex flex-col h-auto md:h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden relative shadow-lg">
       <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-      <div className="p-5 border-b border-white/5 flex items-center justify-between sticky top-0 z-10 bg-card/60 backdrop-blur-xl">
+      <div className="p-5 border-b border-white/5 flex items-center justify-between sticky top-0 z-10 bg-card">
         <div className="flex items-center gap-2">
           <CalendarDays className="w-5 h-5 text-primary" />
           <h3 className="font-display font-bold uppercase tracking-widest text-sm text-primary">What's Happening</h3>
@@ -25,7 +25,7 @@ export function EventsPanel() {
         <RefreshButton onRefresh={() => refetch()} label="events" />
       </div>
       
-      <div className="flex-1 overflow-y-visible md:overflow-y-auto p-4 space-y-3 no-scrollbar">
+      <div className="flex-1 md:min-h-0 overflow-y-visible md:overflow-y-auto p-4 space-y-3 no-scrollbar">
         <AnimatePresence mode="popLayout">
           {events.map((event, i) => {
             // event.date is date-only (YYYY-MM-DD); parseISO treats it as a

@@ -17,7 +17,7 @@ export function SocialPanel() {
 
   return (
     <div className="flex flex-col h-auto bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
-      <div className="p-5 flex items-center justify-between sticky top-0 z-10 bg-background/60 backdrop-blur-xl border-b border-border/50">
+      <div className="p-5 flex items-center justify-between sticky top-0 z-10 bg-background border-b border-border/50">
         <div className="flex items-center gap-2">
           <MessageCircle className="w-5 h-5 text-accent" />
           <h3 className="font-display font-bold uppercase tracking-widest text-sm text-accent">Social</h3>

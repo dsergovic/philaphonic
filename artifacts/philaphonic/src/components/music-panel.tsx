@@ -14,7 +14,7 @@ export function MusicPanel() {
 
   return (
     <div className="flex flex-col h-auto bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
-      <div className="p-5 border-b border-border/50 bg-card/50 backdrop-blur-md flex items-center justify-between sticky top-0 z-10">
+      <div className="p-5 border-b border-border/50 bg-card flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-2 text-primary">
           <Disc3 className="w-5 h-5" />
           <h3 className="font-display font-bold uppercase tracking-widest text-sm">Music</h3>

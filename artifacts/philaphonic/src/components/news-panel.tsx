@@ -15,7 +15,7 @@ export function NewsPanel() {
 
   return (
     <div className="flex flex-col h-auto bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
-      <div className="p-5 border-b border-border/50 flex items-center justify-between sticky top-0 z-10 bg-card/80 backdrop-blur">
+      <div className="p-5 border-b border-border/50 flex items-center justify-between sticky top-0 z-10 bg-card">
         <div className="flex items-center gap-2 text-foreground">
           <Newspaper className="w-5 h-5 text-secondary" />
           <h3 className="font-display font-bold uppercase tracking-widest text-sm text-secondary">News</h3>

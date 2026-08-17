@@ -33,17 +33,21 @@ export default function Home() {
 
       <main className="flex-1 relative z-10 w-full max-w-[1600px] mx-auto p-4 md:p-6 mb-16 lg:mb-12 space-y-4 md:space-y-6">
 
-        {/* Hero: Photos + Events, fixed height */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 md:h-[500px] lg:h-[560px]">
+        {/* Hero: Photos + Events, fixed height. Explicit row track (not just
+            a height on the container) is what actually constrains grid
+            children — without it, auto row sizing follows content, and
+            Events' list would blow the row out to its full unclipped height. */}
+        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-[500px] lg:grid-rows-[560px] gap-4 md:gap-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-            className="md:col-span-2 min-h-[300px]"
+            className="md:col-span-2 min-h-[300px] md:min-h-0"
           >
             <PhotosPanel />
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}
+            className="md:min-h-0"
           >
             <EventsPanel />
           </motion.div>
