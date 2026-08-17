@@ -13,7 +13,7 @@ export function MusicPanel() {
   });
 
   return (
-    <div className="flex flex-col h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
+    <div className="flex flex-col h-auto md:h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
       <div className="p-5 border-b border-border/50 bg-card/50 backdrop-blur-md flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-2 text-primary">
           <Disc3 className="w-5 h-5" />
@@ -21,7 +21,7 @@ export function MusicPanel() {
         </div>
       </div>
       
-      <div className="p-4 flex-1 overflow-y-auto no-scrollbar space-y-4">
+      <div className="p-4 flex-1 overflow-y-visible md:overflow-y-auto no-scrollbar space-y-4">
         <AnimatePresence mode="popLayout">
           {music.map((item, i) => (
             <motion.div

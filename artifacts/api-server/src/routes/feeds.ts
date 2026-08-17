@@ -41,7 +41,9 @@ router.get("/social", async (_req, res): Promise<void> => {
 });
 
 router.get("/photos", async (_req, res): Promise<void> => {
-  const items = rotateWindow(photos, 6, 45_000);
+  // Send the full curated set (not a rotating subset) so the client can
+  // offer manual swipe navigation across all available photos.
+  const items = rotateWindow(photos, photos.length, 45_000);
   res.json(ListPhotosResponse.parse(items));
 });
 

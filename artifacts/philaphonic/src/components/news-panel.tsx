@@ -13,7 +13,7 @@ export function NewsPanel() {
   });
 
   return (
-    <div className="flex flex-col h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
+    <div className="flex flex-col h-auto md:h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
       <div className="p-5 border-b border-border/50 flex items-center justify-between sticky top-0 z-10 bg-card/80 backdrop-blur">
         <div className="flex items-center gap-2 text-foreground">
           <Newspaper className="w-5 h-5 text-secondary" />
@@ -21,7 +21,7 @@ export function NewsPanel() {
         </div>
       </div>
       
-      <div className="flex-1 overflow-y-auto p-5 space-y-6 no-scrollbar">
+      <div className="flex-1 overflow-y-visible md:overflow-y-auto p-5 space-y-6 no-scrollbar">
         <AnimatePresence mode="popLayout">
           {news.map((item, i) => (
             <motion.div

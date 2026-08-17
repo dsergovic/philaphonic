@@ -2,10 +2,6 @@ import { useEffect, useState } from 'react';
 import { useGetWeather, getGetWeatherQueryKey } from '@workspace/api-client-react';
 import { CloudSun } from 'lucide-react';
 
-const timeZoneName =
-  Intl.DateTimeFormat().resolvedOptions().timeZone.split('/').pop()?.replace(/_/g, ' ') ??
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
-
 function useNow() {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
@@ -40,9 +36,7 @@ export function SiteFooter() {
     <div className="w-full bg-background/90 backdrop-blur-xl border-t border-white/10 relative z-50 px-4 py-2.5 flex items-center justify-center gap-4 flex-wrap text-xs font-mono text-muted-foreground">
       <span>{dateLabel}</span>
       <span className="opacity-40">•</span>
-      <span>
-        {timeLabel} ({timeZoneName})
-      </span>
+      <span>{timeLabel}</span>
       {weather && (
         <>
           <span className="opacity-40">•</span>

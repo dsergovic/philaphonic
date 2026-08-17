@@ -33,44 +33,44 @@ export default function Home() {
 
       {/* Main Grid Content */}
       <main className="flex-1 relative z-10 w-full max-w-[1600px] mx-auto p-4 md:p-6 mb-16 lg:mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 auto-rows-[300px] lg:grid-rows-[280px_280px_280px] gap-4 md:gap-6 h-full">
-          
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:auto-rows-[300px] lg:grid-rows-[280px_280px_280px] gap-4 md:gap-6 md:h-full">
+
           {/* Photos: 2x2 on desktop */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-            className="row-span-1 md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2 min-h-[300px]"
+            className="md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2 min-h-[300px]"
           >
             <PhotosPanel />
           </motion.div>
-          
+
           {/* Events: 1x2 on desktop */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}
-            className="row-span-1 md:col-span-1 md:row-span-2 lg:col-span-1 lg:row-span-2"
+            className="md:col-span-1 md:row-span-2 lg:col-span-1 lg:row-span-2"
           >
             <EventsPanel />
           </motion.div>
-          
+
           {/* Social: 1x3 on desktop */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
-            className="row-span-2 md:col-span-1 md:row-span-2 lg:col-span-1 lg:row-span-3"
+            className="md:col-span-1 md:row-span-2 lg:col-span-1 lg:row-span-3"
           >
             <SocialPanel />
           </motion.div>
-          
+
           {/* Music: 1x1 on desktop */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }}
-            className="row-span-1 md:col-span-1 md:row-span-1 lg:col-span-1 lg:row-span-1"
+            className="md:col-span-1 md:row-span-1 lg:col-span-1 lg:row-span-1"
           >
             <MusicPanel />
           </motion.div>
-          
+
           {/* News: 2x1 on desktop */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}
-            className="row-span-1 md:col-span-2 md:row-span-1 lg:col-span-2 lg:row-span-1"
+            className="md:col-span-2 md:row-span-1 lg:col-span-2 lg:row-span-1"
           >
             <NewsPanel />
           </motion.div>

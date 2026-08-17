@@ -15,7 +15,7 @@ export function SocialPanel() {
   });
 
   return (
-    <div className="flex flex-col h-full bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
+    <div className="flex flex-col h-auto md:h-full bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
       <div className="p-5 flex items-center justify-between sticky top-0 z-10 bg-background/60 backdrop-blur-xl border-b border-border/50">
         <div className="flex items-center gap-2">
           <MessageCircle className="w-5 h-5 text-accent" />
@@ -23,7 +23,7 @@ export function SocialPanel() {
         </div>
       </div>
       
-      <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
+      <div className="flex-1 overflow-y-visible md:overflow-y-auto p-4 no-scrollbar">
         <div className="columns-1 sm:columns-2 lg:columns-2 gap-4 space-y-4">
           <AnimatePresence mode="popLayout">
             {posts.map((post, i) => (
