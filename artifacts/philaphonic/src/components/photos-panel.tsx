@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useListPhotos, getListPhotosQueryKey } from '@workspace/api-client-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Camera, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FeedImage } from './feed-image';
-import { RefreshButton } from './refresh-button';
 import { mapsUrl } from '@/lib/maps';
 
 /** Wikimedia Special:FilePath image URLs resolve 1:1 to a File: info page. */
@@ -12,10 +11,10 @@ function wikimediaSourceUrl(imageUrl: string): string | null {
   return imageUrl.replace('/wiki/Special:FilePath/', '/wiki/File:');
 }
 
-const SWIPE_THRESHOLD = 60;
+const SWIPE_THRESHOLD = 50;
 
 export function PhotosPanel() {
-  const { data: photos = [], refetch } = useListPhotos({
+  const { data: photos = [] } = useListPhotos({
     query: {
       refetchInterval: 30000,
       queryKey: getListPhotosQueryKey(),
@@ -24,6 +23,7 @@ export function PhotosPanel() {
 
   const [currentId, setCurrentId] = useState<string | null>(null);
   const [direction, setDirection] = useState(1);
+  const touchStartX = useRef<number | null>(null);
 
   // Track position by photo id, not array index: the background refetch
   // reshuffles the array's order every ~30s (same set, "live" feel), and
@@ -50,77 +50,84 @@ export function PhotosPanel() {
   return (
     <div className="relative w-full h-full min-h-[300px] md:min-h-[500px] bg-card/60 backdrop-blur-md rounded-2xl overflow-hidden border border-white/5 group shadow-lg">
       <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent z-10 pointer-events-none" />
-      <div className="absolute top-4 left-4 z-30 bg-black/40 backdrop-blur rounded-md">
-        <RefreshButton onRefresh={() => refetch()} label="photos" className="text-white/80 hover:text-white hover:bg-white/10" />
+
+      <div
+        className="absolute inset-0 z-0"
+        onTouchStart={(e) => {
+          touchStartX.current = e.touches[0]!.clientX;
+        }}
+        onTouchEnd={(e) => {
+          if (touchStartX.current === null) return;
+          const delta = e.changedTouches[0]!.clientX - touchStartX.current;
+          touchStartX.current = null;
+          if (delta <= -SWIPE_THRESHOLD) go(1);
+          else if (delta >= SWIPE_THRESHOLD) go(-1);
+        }}
+      >
+        <AnimatePresence mode="popLayout" custom={direction} initial={false}>
+          {currentPhoto && (
+            <motion.div
+              key={currentPhoto.id}
+              custom={direction}
+              initial={{ x: `${direction * 100}%` }}
+              animate={{ x: 0 }}
+              exit={{ x: `${direction * -100}%` }}
+              transition={{ type: 'tween', duration: 0.35, ease: 'easeInOut' }}
+              className="absolute inset-0"
+            >
+              <FeedImage src={currentPhoto.imageUrl} alt={currentPhoto.title} fadeMs={200} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      <AnimatePresence mode="wait" custom={direction}>
-        {currentPhoto && (
+      {currentPhoto && (
+        <div className="absolute bottom-0 left-0 p-6 z-20 w-full pointer-events-none">
           <motion.div
-            key={currentPhoto.id}
-            custom={direction}
-            initial={{ opacity: 0, x: direction * 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction * -40 }}
-            transition={{ duration: 0.4 }}
-            drag={photos.length > 1 ? 'x' : false}
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.6}
-            onDragEnd={(_e, info) => {
-              if (info.offset.x <= -SWIPE_THRESHOLD) go(1);
-              else if (info.offset.x >= SWIPE_THRESHOLD) go(-1);
-            }}
-            className="absolute inset-0 cursor-grab active:cursor-grabbing"
+            key={`caption-${currentPhoto.id}`}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.15 }}
+            className="pointer-events-auto"
           >
-            <FeedImage src={currentPhoto.imageUrl} alt={currentPhoto.title} fadeMs={500} />
-
-            <div className="absolute bottom-0 left-0 p-6 z-20 w-full pointer-events-none">
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.15 }}
-                className="pointer-events-auto"
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider mb-3">
+              {currentPhoto.tag}
+            </div>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-2 leading-tight">
+              {currentPhoto.title}
+            </h2>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/80 font-medium">
+              <a
+                href={mapsUrl(`${currentPhoto.location}, Philadelphia, PA`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 hover:text-primary transition-colors"
+                aria-label={`${currentPhoto.location} — view on map`}
               >
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-xs font-bold uppercase tracking-wider mb-3">
-                  {currentPhoto.tag}
+                <MapPin className="w-4 h-4 text-secondary" />
+                {currentPhoto.location}
+              </a>
+              {wikimediaSourceUrl(currentPhoto.imageUrl) ? (
+                <a
+                  href={wikimediaSourceUrl(currentPhoto.imageUrl)!}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors"
+                  aria-label={`${currentPhoto.credit} — view source on Wikimedia Commons`}
+                >
+                  <Camera className="w-4 h-4 text-primary" />
+                  {currentPhoto.credit}
+                </a>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <Camera className="w-4 h-4 text-primary" />
+                  {currentPhoto.credit}
                 </div>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-2 leading-tight">
-                  {currentPhoto.title}
-                </h2>
-                <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/80 font-medium">
-                  <a
-                    href={mapsUrl(`${currentPhoto.location}, Philadelphia, PA`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 hover:text-primary transition-colors"
-                    aria-label={`${currentPhoto.location} — view on map`}
-                  >
-                    <MapPin className="w-4 h-4 text-secondary" />
-                    {currentPhoto.location}
-                  </a>
-                  {wikimediaSourceUrl(currentPhoto.imageUrl) ? (
-                    <a
-                      href={wikimediaSourceUrl(currentPhoto.imageUrl)!}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 hover:text-primary transition-colors"
-                      aria-label={`${currentPhoto.credit} — view source on Wikimedia Commons`}
-                    >
-                      <Camera className="w-4 h-4 text-primary" />
-                      {currentPhoto.credit}
-                    </a>
-                  ) : (
-                    <div className="flex items-center gap-1.5">
-                      <Camera className="w-4 h-4 text-primary" />
-                      {currentPhoto.credit}
-                    </div>
-                  )}
-                </div>
-              </motion.div>
+              )}
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
 
       {photos.length > 1 && (
         <>
@@ -128,7 +135,7 @@ export function PhotosPanel() {
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous photo"
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-black/40 backdrop-blur text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-black/40 backdrop-blur text-white opacity-70 hover:opacity-100 hover:bg-black/60 transition-opacity"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -136,7 +143,7 @@ export function PhotosPanel() {
             type="button"
             onClick={() => go(1)}
             aria-label="Next photo"
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-black/40 backdrop-blur text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-black/40 backdrop-blur text-white opacity-70 hover:opacity-100 hover:bg-black/60 transition-opacity"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
