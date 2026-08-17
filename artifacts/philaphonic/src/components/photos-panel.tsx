@@ -64,7 +64,7 @@ export function PhotosPanel() {
           else if (delta >= SWIPE_THRESHOLD) go(-1);
         }}
       >
-        <AnimatePresence custom={direction} initial={false}>
+        <AnimatePresence custom={direction}>
           {currentPhoto && (
             <motion.div
               key={currentPhoto.id}
