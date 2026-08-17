@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Newspaper } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { CopyButton } from './copy-button';
+import { RefreshButton } from './refresh-button';
 
 export function NewsPanel() {
-  const { data: news = [] } = useListNews({
+  const { data: news = [], refetch } = useListNews({
     query: {
       refetchInterval: 60000,
       queryKey: getListNewsQueryKey(),
@@ -13,15 +14,16 @@ export function NewsPanel() {
   });
 
   return (
-    <div className="flex flex-col h-auto md:h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
+    <div className="flex flex-col h-auto bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
       <div className="p-5 border-b border-border/50 flex items-center justify-between sticky top-0 z-10 bg-card/80 backdrop-blur">
         <div className="flex items-center gap-2 text-foreground">
           <Newspaper className="w-5 h-5 text-secondary" />
           <h3 className="font-display font-bold uppercase tracking-widest text-sm text-secondary">News</h3>
         </div>
+        <RefreshButton onRefresh={() => refetch()} label="news" />
       </div>
-      
-      <div className="flex-1 overflow-y-visible md:overflow-y-auto p-5 space-y-6 no-scrollbar">
+
+      <div className="flex-1 overflow-y-visible p-5 space-y-6 no-scrollbar">
         <AnimatePresence mode="popLayout">
           {news.map((item, i) => (
             <motion.div

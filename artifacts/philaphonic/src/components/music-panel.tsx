@@ -1,11 +1,11 @@
 import { useListMusic, getListMusicQueryKey } from '@workspace/api-client-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FeedImage } from './feed-image';
+import { RefreshButton } from './refresh-button';
 import { Disc3, PlayCircle } from 'lucide-react';
-import { useState } from 'react';
 
 export function MusicPanel() {
-  const { data: music = [] } = useListMusic({
+  const { data: music = [], refetch } = useListMusic({
     query: {
       refetchInterval: 40000,
       queryKey: getListMusicQueryKey(),
@@ -13,15 +13,16 @@ export function MusicPanel() {
   });
 
   return (
-    <div className="flex flex-col h-auto md:h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
+    <div className="flex flex-col h-auto bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
       <div className="p-5 border-b border-border/50 bg-card/50 backdrop-blur-md flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-2 text-primary">
           <Disc3 className="w-5 h-5" />
           <h3 className="font-display font-bold uppercase tracking-widest text-sm">Music</h3>
         </div>
+        <RefreshButton onRefresh={() => refetch()} label="music" />
       </div>
-      
-      <div className="p-4 flex-1 overflow-y-visible md:overflow-y-auto no-scrollbar space-y-4">
+
+      <div className="p-4 flex-1 overflow-y-visible no-scrollbar space-y-4">
         <AnimatePresence mode="popLayout">
           {music.map((item, i) => (
             <motion.div

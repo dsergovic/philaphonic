@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CalendarDays, MapPin, Clock, Ticket } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { mapsUrl } from '@/lib/maps';
+import { RefreshButton } from './refresh-button';
 
 export function EventsPanel() {
-  const { data: events = [] } = useListEvents({
+  const { data: events = [], refetch } = useListEvents({
     query: {
       refetchInterval: 50000,
       queryKey: getListEventsQueryKey(),
@@ -15,6 +16,9 @@ export function EventsPanel() {
   return (
     <div className="flex flex-col h-auto md:h-full bg-card/60 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden relative shadow-lg">
       <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="absolute bottom-3 right-3 z-30 bg-card/80 backdrop-blur rounded-md">
+        <RefreshButton onRefresh={() => refetch()} label="events" />
+      </div>
       
       <div className="p-5 border-b border-white/5 flex items-center justify-between sticky top-0 z-10 bg-card/60 backdrop-blur-xl">
         <div className="flex items-center gap-2">

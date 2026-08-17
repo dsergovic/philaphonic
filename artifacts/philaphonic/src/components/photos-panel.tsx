@@ -3,6 +3,7 @@ import { useListPhotos, getListPhotosQueryKey } from '@workspace/api-client-reac
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Camera, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FeedImage } from './feed-image';
+import { RefreshButton } from './refresh-button';
 import { mapsUrl } from '@/lib/maps';
 
 /** Wikimedia Special:FilePath image URLs resolve 1:1 to a File: info page. */
@@ -14,7 +15,7 @@ function wikimediaSourceUrl(imageUrl: string): string | null {
 const SWIPE_THRESHOLD = 60;
 
 export function PhotosPanel() {
-  const { data: photos = [] } = useListPhotos({
+  const { data: photos = [], refetch } = useListPhotos({
     query: {
       refetchInterval: 30000,
       queryKey: getListPhotosQueryKey(),
@@ -40,6 +41,9 @@ export function PhotosPanel() {
   return (
     <div className="relative w-full h-full min-h-[300px] md:min-h-[500px] bg-card/60 backdrop-blur-md rounded-2xl overflow-hidden border border-white/5 group shadow-lg">
       <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent z-10 pointer-events-none" />
+      <div className="absolute top-4 left-4 z-30 bg-black/40 backdrop-blur rounded-md">
+        <RefreshButton onRefresh={() => refetch()} label="photos" className="text-white/80 hover:text-white hover:bg-white/10" />
+      </div>
 
       <AnimatePresence mode="wait" custom={direction}>
         {currentPhoto && (

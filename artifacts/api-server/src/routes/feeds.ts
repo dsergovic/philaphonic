@@ -21,22 +21,26 @@ import { getWeather } from "../lib/weatherFetcher";
 const router: IRouter = Router();
 
 router.get("/music", async (_req, res): Promise<void> => {
-  const items = rotateWindow(musicItems, 8, 25_000);
+  // Send the full curated set (not a small subset) — rotateWindow still
+  // reorders it over time for a "live" feel, but nothing stays hidden.
+  const items = rotateWindow(musicItems, musicItems.length, 25_000);
   res.json(ListMusicResponse.parse(items));
 });
 
 router.get("/news", async (req, res): Promise<void> => {
   const live = await getLiveNews();
   if (live) {
-    res.json(ListNewsResponse.parse(rotateWindow(live, 10, 40_000)));
+    res.json(ListNewsResponse.parse(rotateWindow(live, 20, 40_000)));
     return;
   }
   req.log.info("Serving curated news fallback");
-  res.json(ListNewsResponse.parse(rotateWindow(fallbackNews(), 10, 40_000)));
+  const fallback = fallbackNews();
+  res.json(ListNewsResponse.parse(rotateWindow(fallback, fallback.length, 40_000)));
 });
 
 router.get("/social", async (_req, res): Promise<void> => {
-  const items = rotateWindow(socialPosts(), 8, 30_000);
+  const posts = socialPosts();
+  const items = rotateWindow(posts, posts.length, 30_000);
   res.json(ListSocialResponse.parse(items));
 });
 
@@ -48,7 +52,8 @@ router.get("/photos", async (_req, res): Promise<void> => {
 });
 
 router.get("/events", async (_req, res): Promise<void> => {
-  const items = rotateWindow(eventItems(), 7, 60_000);
+  const events = eventItems();
+  const items = rotateWindow(events, events.length, 60_000);
   res.json(ListEventsResponse.parse(items));
 });
 

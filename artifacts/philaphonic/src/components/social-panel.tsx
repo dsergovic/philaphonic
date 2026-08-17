@@ -2,12 +2,13 @@ import { useListSocial, getListSocialQueryKey } from '@workspace/api-client-reac
 import { motion, AnimatePresence } from 'framer-motion';
 import { FeedImage } from './feed-image';
 import { CopyButton } from './copy-button';
+import { RefreshButton } from './refresh-button';
 import { Instagram, Twitter, MessageCircle, Heart, MessageSquare } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
 import { formatDistanceToNow } from 'date-fns';
 
 export function SocialPanel() {
-  const { data: posts = [] } = useListSocial({
+  const { data: posts = [], refetch } = useListSocial({
     query: {
       refetchInterval: 25000,
       queryKey: getListSocialQueryKey(),
@@ -15,15 +16,16 @@ export function SocialPanel() {
   });
 
   return (
-    <div className="flex flex-col h-auto md:h-full bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
+    <div className="flex flex-col h-auto bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-lg">
       <div className="p-5 flex items-center justify-between sticky top-0 z-10 bg-background/60 backdrop-blur-xl border-b border-border/50">
         <div className="flex items-center gap-2">
           <MessageCircle className="w-5 h-5 text-accent" />
           <h3 className="font-display font-bold uppercase tracking-widest text-sm text-accent">Social</h3>
         </div>
+        <RefreshButton onRefresh={() => refetch()} label="social" />
       </div>
-      
-      <div className="flex-1 overflow-y-visible md:overflow-y-auto p-4 no-scrollbar">
+
+      <div className="flex-1 overflow-y-visible p-4 no-scrollbar">
         <div className="columns-1 sm:columns-2 lg:columns-2 gap-4 space-y-4">
           <AnimatePresence mode="popLayout">
             {posts.map((post, i) => (
